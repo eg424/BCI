@@ -5,26 +5,32 @@ function modelParameters = positionEstimatorTraining(training_data)
 
     % Collect spike counts & corresponding hand positions
     X_data = [];
-    Y_data = [];
+    xdot_data = [];
+    ydot_data = [];
 
     for trial = 1:num_trials
         for angle = 1:num_angles
             spikes = training_data(trial, angle).spikes;
             time_bins = size(spikes, 2);
             
-            % Average firing rate per neuron in trial
-            avg_firing_rates = mean(spikes, 2)';
+            % Cumulative spike count - instead of mean firing rate
+            cum_spikes = sum(spikes, 2)';
             
-            % Target x,y hand position
-            final_pos = training_data(trial, angle).handPos(1:2, end)';
+            % Target x,y velocities - instead of position
+            start_pos = training_data(trial, angle).handPos(1:2, 1);
+            final_pos = training_data(trial, angle).handPos(1:2, end);
+            duration = size(training_data(trial, angle).handPos, 2);
 
-            X_data = [X_data; avg_firing_rates]; % Inputs
-            Y_data = [Y_data; final_pos];  % Outputs
+            v = (final_pos - start_pos) / duration;
+
+            X_data = [X_data; cum_spikes];
+            xdot_data = [xdot_data; v(1)];
+            ydot_data = [ydot_data; v(2)];
         end
-
-    % Training
-    modelParameters.Wx = pinv(X_data) * Y_data(:, 1); 
-    modelParameters.Wy = pinv(X_data) * Y_data(:, 2);
     end
+    
+    % Training
+    modelParameters.Wx = pinv(X_data) * xdot_data; 
+    modelParameters.Wy = pinv(X_data) * ydot_data;
 
 end
