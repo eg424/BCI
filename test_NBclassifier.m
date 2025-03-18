@@ -1,25 +1,35 @@
 % Load dataset
 data = load("monkeydata_training.mat");
-trainingData = data.trial;
+TT_data = data.trial;
+numTrials = size(TT_data, 1);
+numAngles = size(TT_data, 2);
+
+% Set parameters for feature extraction
+numNeurons = size(TT_data(1,1).spikes, 1);
+numFeatures = 6; % Mean, Variance, Fano Factor, Total Spike Count, ISI Mean, ISI Variance
+
+% Split data into 70% training and 30% testing
+trainFraction = 0.8;
+randIdx = randperm(numTrials);
+numTrainTrials = round(trainFraction * numTrials);
+trainIndices = randIdx(1:numTrainTrials);
+testIndices = randIdx(numTrainTrials+1:end);
+
+trainingData = TT_data(trainIndices, :);
+testingData = TT_data(testIndices, :);
 
 % Train the Naive Bayes classifier
 Model = Naive_Bayes(trainingData);
 
-% Extract test features
-numTrials = size(trainingData, 1);
-numAngles = size(trainingData, 2);
-numNeurons = size(trainingData(1,1).spikes, 1);
-numFeatures = 6; % Mean, Variance, Fano Factor, Total Spike Count, ISI Mean, ISI Variance
-
-testFeatures = zeros(numTrials * numAngles, numNeurons * numFeatures);
-trueAngles = zeros(numTrials * numAngles, 1);
-
+% Extract test features from testing data
+numTestTrials = size(testingData, 1);
+testFeatures = zeros(numTestTrials * numAngles, numNeurons * numFeatures);
+trueAngles = zeros(numTestTrials * numAngles, 1);
 sampleIdx = 1;
 
-for trial = 1:numTrials
+for trial = 1:numTestTrials
     for angle = 1:numAngles
-        spikes = trainingData(trial, angle).spikes; % (numNeurons x timeBins)
-        spikeTimes = cell(numNeurons, 1);
+        spikes = testingData(trial, angle).spikes; % (numNeurons x timeBins)
         ISI_mean = zeros(1, numNeurons);
         ISI_var = zeros(1, numNeurons);
         
@@ -65,7 +75,6 @@ for i = 1:size(testFeatures, 1)
         % Compute likelihood using Gaussian Naive Bayes formula
         likelihood = exp(-0.5 * ((testFeatures(i, :) - Model.meanFeature(j, :)).^2 ./ Model.varFeature(j, :))) ...
                      ./ sqrt(2 * pi * Model.varFeature(j, :));
-        
         probabilities(j) = Model.priors(j) * prod(likelihood);
     end
     
