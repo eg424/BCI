@@ -1,4 +1,4 @@
-function modelParameters = positionEstimatorTraining_kalman(trainingData)
+function modelParameters = positionEstimatorTraining(trainingData)
     % Extract number of trials and neurons
     numTrials = length(trainingData);
     numNeurons = size(trainingData(1,1).spikes, 1);
