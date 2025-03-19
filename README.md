@@ -16,6 +16,8 @@ Contains multivariate linear regression model with Euler integration for improve
 - **LinRegInit**: Implements an initial linear regression model, later improved with Euler integration and comitted to LinearRegression.
 - **XGBoost**: *Need to add Mo’s*.
 
+#### Dimensionality Reduction
+   - **PCA_LDA**: PCA for dimensionality reduction and LDA for classification. *Needs code for implementation and testing. Commit to `DimReduction` if best*.
 #### Kalman Filter
 Contains initial Kalman Filter for now. Stats and images added for comparison of KF vs HSKF implementation.
 - **KalmanInit**: Implements the initial Kalman filter (KF).  The current best version is committed to `KalmanFilter` as better than HSKF.
