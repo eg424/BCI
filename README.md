@@ -16,10 +16,10 @@ The repository follows a structured branching strategy:
 - **XGBoost**: *need to add Mo’s*.
 
 #### Kalman Filter
-- **ModelInit**: Implements the initial Kalman filter (KF); * need to test Hidden State Implementation. Commit to `KalmanFilter` whichever's best.*
+- **ModelInit**: Implements the initial Kalman filter (KF); *need to test Hidden State Implementation. Commit to `KalmanFilter` whichever's best*.
 - **ClassifierKF**: Use of a classifier combined with KF/Hidden State KF (HSKF).
 - **NBClassifier**: Implements Naïve Bayes classification with KF/HSKF. The current best version is committed to `KalmanFilter`.
-- **SVM Classification + KF/HSKF**: Implements SVM classification with KF/HSKF. * Commit to `ClassifierKF` if best*.
+- **SVM Classification + KF/HSKF**: Implements SVM classification with KF/HSKF. *Commit to `ClassifierKF` if best*.
 - **Sliding Window Classification + KF/HSKF**: *needs code for implementation and testing. Commit to `ClassifierKF` if best*.
 - **Hybrid KF/HSKF**: *needs KF/HSKF + Multilayer Perceptron implementation*.
 
@@ -45,10 +45,4 @@ The repository follows a structured branching strategy:
 - Finalize and integrate the best classifier-based KF/HSKF model.
 - Improve hybrid decoding by combining MLP with KF/HSKF.
 - Optimize deep learning approaches and finalize the best performing neural network-based decoder.
-
-## Contributors
-- **eg424** and collaborators.
-
-## License
-This repository is licensed under [MIT License](LICENSE).
 
