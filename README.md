@@ -12,11 +12,11 @@ The repository follows a structured branching strategy:
 ### Model Categories
 
 #### Linear Regression
-- **InitialModel**: Implements an initial linear regression model, later improved with Euler integration and comitted to LinearRegression.
+- **LinRegInit**: Implements an initial linear regression model, later improved with Euler integration and comitted to LinearRegression.
 - **XGBoost**: *need to add Mo’s*.
 
 #### Kalman Filter
-- **ModelInit**: Implements the initial Kalman filter (KF); *need to test Hidden State Implementation. Commit to `KalmanFilter` whichever's best*.
+- **KalmanInit**: Implements the initial Kalman filter (KF); *need to test Hidden State Implementation. Commit to `KalmanFilter` whichever's best*.
 - **ClassifierKF**: Use of a classifier combined with KF/Hidden State KF (HSKF).
 - **NBClassifier**: Implements Naïve Bayes classification with KF/HSKF. The current best version is committed to `KalmanFilter`.
 - **SVM Classification + KF/HSKF**: Implements SVM classification with KF/HSKF. *Commit to `ClassifierKF` if best*.
