@@ -5,16 +5,18 @@ function [x, y] = positionEstimator(testData, modelParameters)
     H = modelParameters.H;
     Q = modelParameters.Q;
     avgVelocity = modelParameters.avgVelocity;
+
+    % Hidden state dimension
+    numHiddenStates = 20;  % Assuming H maps to [firingRates, firingRateChanges]
     
     % Initial state estimation
     spikes = testData.spikes;
     numNeurons = size(spikes, 1);
-    T = 30;
     binSize = 395;
     
     % Initial estimates
-    x_est = [testData.startHandPos(1); testData.startHandPos(2); avgVelocity; 0; 0; 0; 0];
-    P_est = eye(8);
+    x_est = [testData.startHandPos(1); testData.startHandPos(2); avgVelocity; 0; 0; zeros(numHiddenStates, 1)];
+    P_est = eye(6 + numHiddenStates);
     
     % Compute smoothed firing rates
     cumsumSpikes = cumsum(spikes, 2);
@@ -33,8 +35,8 @@ function [x, y] = positionEstimator(testData, modelParameters)
 
     Z = [firingRates; firingRateChanges; repmat(meanFiringRate, 1, size(firingRates, 2))];  
    
-    size_a = size(A);
-    size_x = size(x_est);
+    size_a = size(A)
+    size_xest = size(x_est)
     % Batch Kalman filter update
     X_pred = A * x_est;
     P_pred = A * P_est * A' + W;
