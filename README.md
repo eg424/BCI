@@ -12,21 +12,24 @@ The repository follows a structured branching strategy:
 ### Model Categories
 
 #### Linear Regression
+Contains multivariate linear regression model with Euler integration for improved accuracy. Stats and images added for comparison of initial model performance vs Euler integration.
 - **LinRegInit**: Implements an initial linear regression model, later improved with Euler integration and comitted to LinearRegression.
-- **XGBoost**: *need to add Mo’s*.
+- **XGBoost**: *Need to add Mo’s*.
 
 #### Kalman Filter
-- **KalmanInit**: Implements the initial Kalman filter (KF); *need to test Hidden State Implementation. Commit to `KalmanFilter` whichever's best*.
-- **ClassifierKF**: Use of a classifier combined with KF/Hidden State KF (HSKF).
-- **NBClassifier**: Implements Naïve Bayes classification with KF/HSKF. The current best version is committed to `KalmanFilter`.
-- **SVM Classification + KF/HSKF**: Implements SVM classification with KF/HSKF. *Commit to `ClassifierKF` if best*.
-- **Sliding Window Classification + KF/HSKF**: *needs code for implementation and testing. Commit to `ClassifierKF` if best*.
-- **Hybrid KF/HSKF**: *needs KF/HSKF + Multilayer Perceptron implementation*.
+Contains initial Kalman Filter for now. Stats and images added for comparison of KF vs HSKF implementation.
+- **KalmanInit**: Implements the initial Kalman filter (KF).  The current best version is committed to `KalmanFilter` as better than HSKF.
+- **HiddenStateKF**: Hidden State Implementation. Worse performance than initial KF.
+- **ClassifierKF**: *No code yet as best classifier still needs to be determined. Once determined, it will contain the best classifier with KF for improved accuracy. Stats and images for comparison of initial KF vs each classifier (e.g., vs NB, vs SVM, vs SW)*.
+   - **NBClassifier**: Implements Naïve Bayes classification with KF. Important finding in the last commit.
+   - **SVM Classification + KF**: Implements SVM classification with KF. *Needs improvements, commit to `ClassifierKF` if best*.
+   - **Sliding Window Classification + KF**: *Needs code for implementation and testing. Commit to `ClassifierKF` if best*.
+- **Hybrid KF/HSKF**: *Needs KF + Multilayer Perceptron implementation*.
 
 #### Deep Learning
-- **Feedforward**: comit to `DeepLearning` if best.
-- **LSTM**: Currently testing variations (vLSTM vs. sdLSTM). The best version will be committed to `DeepLearning`.
-- **GRU/TCN**: commit to `DeepLearning` if best.
+- **Feedforward**: *Commit to `DeepLearning` if best*.
+- **LSTM**: *Currently testing variations (vLSTM vs. sdLSTM). Will be committed to `DeepLearning` if best*.
+- **GRU/TCN**: *Commit to `DeepLearning` if best*.
 
 ## Usage
 1. Clone the repository:
@@ -41,8 +44,7 @@ The repository follows a structured branching strategy:
 3. To contribute, create a new branch from `dev`, implement changes, and merge only the best-performing models into `main`.
 
 ## Roadmap
-- Test Hidden State Kalman Filter (HSKF) implementation.
-- Finalize and integrate the best classifier-based KF/HSKF model.
-- Improve hybrid decoding by combining MLP with KF/HSKF.
-- Optimize deep learning approaches and finalize the best performing neural network-based decoder.
+- Test and determine the best classifier-based KF model.
+- Improve hybrid decoding by combining MLP with KF.
+- Optimise deep learning approaches and finalise the best performing NN-based decoder.
 
