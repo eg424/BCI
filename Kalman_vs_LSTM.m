@@ -69,7 +69,7 @@ options = trainingOptions('adam', ...
     'Plots', 'training-progress');
 
 % Train the LSTM Model
-net = trainNetwork(XTrain, YTrain, layers, options);
+net = trainbet(XTrain, YTrain, layers, options);
 
 % Predict using trained LSTM
 YPred = predict(net, XTrain);

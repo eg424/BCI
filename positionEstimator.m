@@ -1,35 +1,20 @@
-function [x, y] = positionEstimator(testData, modelParameters)
-    % Extract trained network
-    net = modelParameters.net;
+function [x, y] = positionEstimator(test_data, modelParameters)
+    X_test = extractFeatures(test_data);
     
-    % Preprocess test spikes
-    spikes = testData.spikes;
-    numNeurons = size(spikes, 1);
-    binSize = 50;
-    timeHistory = 10;
-
-    % Compute binned firing rates
-    numBins = floor(size(spikes, 2) / binSize);
-    binnedSpikes = zeros(numNeurons, numBins);
-    for t = 1:numBins
-        binStart = (t-1) * binSize + 1;
-        binEnd = min(t * binSize, size(spikes, 2));
-        binnedSpikes(:, t) = sum(spikes(:, binStart:binEnd), 2) / (binEnd - binStart);
+    fprintf('Test data size: %s\n', mat2str(size(X_test)));
+    
+    predictedPos = predict(modelParameters.net, X_test);
+    
+    if isempty(predictedPos)
+        error('Prediction is empty. Check network output.');
     end
     
-    % Normalize using training statistics (assumes training mean/std are known)
-    binnedSpikes = (binnedSpikes - mean(binnedSpikes, 2)) ./ (std(binnedSpikes, 0, 2) + 1e-6);
-
-    % Use last few bins as input to LSTM
-    if size(binnedSpikes, 2) < timeHistory
-    XTest = padarray(binnedSpikes, [0, timeHistory - size(binnedSpikes, 2)], 'pre', 'replicate');
-    else
-        XTest = binnedSpikes(:, end-timeHistory+1:end);
-    end
-
-    % Predict hand position (x, y)
-    YPred = predict(net, XTest);
+    fprintf('Predicted position size: %s\n', mat2str(size(predictedPos)));
+    fprintf('First 5 predictions: \n');
+    disp(predictedPos(1:min(5, size(predictedPos,1)), :));
     
-    x = YPred(1);
-    y = YPred(2);
+    x = predictedPos(end, 1);
+    y = predictedPos(end, 2);
+    
+    fprintf('Final predicted position: (%.2f, %.2f)\n', x, y);
 end
