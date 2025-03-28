@@ -57,7 +57,11 @@ for tr=1:size(testData,1)
             
             decodedPos = [decodedPosX; decodedPosY];
             decodedHandPos = [decodedHandPos decodedPos];
-            
+            actualPos = testData(tr,direc).handPos(1:2,t);
+                
+            fprintf('Time: %d | Decoded: (%.2f, %.2f) | Actual: (%.2f, %.2f)\n', ...
+                    t, decodedPosX, decodedPosY, actualPos(1), actualPos(2));
+
             meanSqError = meanSqError + norm(testData(tr,direc).handPos(1:2,t) - decodedPos)^2;
             
         end
