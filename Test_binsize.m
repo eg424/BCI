@@ -36,8 +36,14 @@ title(['Raw Spike Train (Neuron ' num2str(neuron_idx) ', Trial ' num2str(trial_i
 % Bin spikes
 [binnedSpikesBefore, binnedSpikes, timeBins, emptyBinsBefore, emptyBinsAfter, binSize] = binSpikes(spike_data);
 
+% Calculate the total number of bins before and after filtering
+totalBinsBefore = length(binnedSpikesBefore);
+totalBinsAfter = length(binnedSpikes);
+
 % Display empty bins count before and after filtering
+disp(['Total number of bins before filtering: ' num2str(totalBinsBefore)]);
 disp(['Number of empty bins before filtering: ' num2str(emptyBinsBefore)]);
+disp(['Total number of bins after filtering: ' num2str(totalBinsAfter)]);
 disp(['Number of empty bins after filtering: ' num2str(emptyBinsAfter)]);
 
 % Plot binned spike counts

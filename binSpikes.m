@@ -34,7 +34,7 @@ function [binnedSpikesBefore, binnedSpikes, timeBins, emptyBinsBefore, emptyBins
     end
 
     % Create time bins
-    timeBins = 1:binSize:(totalTime+1);
+    timeBins = 0:binSize:(totalTime);
     
     % Binning spikes using histcounts
     binnedSpikes = histcounts(find(spike_data), timeBins);
