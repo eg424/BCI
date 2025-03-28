@@ -42,9 +42,10 @@ function [X, Y_speed, Y_direction, Y_angle] = preprocessData(training_data, binS
                 continue;
             end
 
-            % Remove non-firing neurons
-            nonFiringNeurons = all(spikes == 0, 2);  % Find neurons with zero spikes, all time steps
-            spikes(nonFiringNeurons, :) = [];  % Remove them
+            % Remove non-firing neurons - May be useful for a different
+            % model, but cannot be used for input layer due to fixed size.
+            % nonFiringNeurons = all(spikes == 0, 2);  % Find neurons with zero spikes, all time steps
+            % spikes(nonFiringNeurons, :) = [];  % Remove them
 
             % Velocity components
             dx = diff(handPos(1, :));
@@ -82,8 +83,8 @@ function [X, Y_speed, Y_direction, Y_angle] = preprocessData(training_data, binS
     end
     
     % Debugging output
-    fprintf('Processed %d samples\n', length(X));
-    fprintf('Processed speed labels: %d samples\n', length(Y_speed));
-    fprintf('Processed direction labels: %d samples\n', length(Y_direction));
-    fprintf('Processed angle labels: %d samples\n', length(Y_angle));
+    %fprintf('Processed %d samples\n', length(X));
+    %fprintf('Processed speed labels: %d samples\n', length(Y_speed));
+    %fprintf('Processed direction labels: %d samples\n', length(Y_direction));
+    %fprintf('Processed angle labels: %d samples\n', length(Y_angle));
 end
