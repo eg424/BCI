@@ -12,7 +12,7 @@ load monkeydata_training.mat
 rng(2013);
 ix = randperm(length(trial));
 
-addpath('Banana-Certified Interfaces');
+% addpath('Banana-Certified Interfaces');
 
 % Select training and testing data (you can choose to split your data in a different way if you wish)
 trainingData = trial(ix(1:50),:);
@@ -57,7 +57,11 @@ for tr=1:size(testData,1)
             
             decodedPos = [decodedPosX; decodedPosY];
             decodedHandPos = [decodedHandPos decodedPos];
-            
+            actualPos = testData(tr,direc).handPos(1:2,t);
+                
+            fprintf('Time: %d | Decoded: (%.2f, %.2f) | Actual: (%.2f, %.2f)\n', ...
+                    t, decodedPosX, decodedPosY, actualPos(1), actualPos(2));
+
             meanSqError = meanSqError + norm(testData(tr,direc).handPos(1:2,t) - decodedPos)^2;
             
         end
@@ -78,7 +82,7 @@ fprintf('Total time taken: %.4f seconds\n', totalTime);
 fprintf('Average time per prediction: %.4f seconds\n', totalTime / n_predictions);
 Weighted_rank = 0.9 * RMSE + 0.1 * totalTime
 
-rmpath(genpath('Banana-Certified Interfaces'))
+% rmpath(genpath('Banana-Certified Interfaces'))
 
 end
 
