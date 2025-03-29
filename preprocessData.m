@@ -46,6 +46,20 @@ function [X, Y_speed, Y_direction, Y_angle] = preprocessData(training_data, binS
             % model, but cannot be used for input layer due to fixed size.
             % nonFiringNeurons = all(spikes == 0, 2);  % Find neurons with zero spikes, all time steps
             % spikes(nonFiringNeurons, :) = [];  % Remove them
+            % spikes(nonFiringNeurons, :) = randn(sum(nonFiringNeurons), size(spikes, 2)) * 0.01; % replace with small Gaussian noise
+
+            % Normalisation: current model uses z-score, but could compare
+            % against normal normalisation
+            % min_spike = min(spikes, [], 2);
+            % max_spike = max(spikes, [], 2);
+            % spikes = (spikes - min_spike) ./ (max_spike - min_spike);
+
+            % Apply temporal smoothing to spike data (moving average)
+            % if nargin < 3
+            %    smoothingWindow = 5;  % Default smoothing window if not provided
+            % end
+            % spikes = smoothdata(spikes, 2, 'movmean', smoothingWindow);  % Smooth across time
+
 
             % Velocity components
             dx = diff(handPos(1, :));
@@ -87,4 +101,5 @@ function [X, Y_speed, Y_direction, Y_angle] = preprocessData(training_data, binS
     %fprintf('Processed speed labels: %d samples\n', length(Y_speed));
     %fprintf('Processed direction labels: %d samples\n', length(Y_direction));
     %fprintf('Processed angle labels: %d samples\n', length(Y_angle));
+    
 end

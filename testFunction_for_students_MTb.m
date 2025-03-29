@@ -18,7 +18,6 @@ ix = randperm(length(trial));
 trainingData = trial(ix(1:50),:);
 testData = trial(ix(51:end),:);
 
-fprintf('Testing the continuous position estimator...')
 fprintf('Testing the continuous position estimator...\n')
 
 meanSqError = 0;
@@ -30,10 +29,17 @@ hold on
 axis square
 grid
 
-% Train Model
-tic;
-modelParameters = positionEstimatorTraining(trainingData);
+% modelParameters = positionEstimatorTraining2(trainingData);
 
+% Instead of training every time, check if the trained model exists.
+% Can comment this out and uncomment above if want to test new model.
+if exist('positionEstimatorTrained.mat', 'file')
+    load('positionEstimatorTrained.mat', 'modelParameters');
+else
+    modelParameters = positionEstimatorTraining2(trainingData);
+end
+
+tic;
 for tr=1:size(testData,1)
     display(['Decoding block ',num2str(tr),' out of ',num2str(size(testData,1))]);
     pause(0.001)
@@ -49,10 +55,10 @@ for tr=1:size(testData,1)
             past_current_trial.decodedHandPos = decodedHandPos;
             past_current_trial.startHandPos = testData(tr,direc).handPos(1:2,1); 
             
-            if nargout('positionEstimator') == 3
-                [decodedPosX, decodedPosY, predictedAngle] = positionEstimator(past_current_trial, modelParameters);
-            elseif nargout('positionEstimator') == 2
-                [decodedPosX, decodedPosY] = positionEstimator(past_current_trial, modelParameters);
+            if nargout('positionEstimator2') == 3
+                [decodedPosX, decodedPosY, predictedAngle] = positionEstimator2(past_current_trial, modelParameters);
+            elseif nargout('positionEstimator2') == 2
+                [decodedPosX, decodedPosY] = positionEstimator2(past_current_trial, modelParameters);
             end
 
             
@@ -64,9 +70,12 @@ for tr=1:size(testData,1)
             actualAngle = atan2(actualPos(2) - past_current_trial.startHandPos(2), ...
                                 actualPos(1) - past_current_trial.startHandPos(1));  % Compute actual angle
 
+            % Use the final predicted angle for error computation and printing:
+            finalPredAngle = predictedAngle(end);
+
             % Print the time, predicted and actual positions and angles
-            fprintf('Time: %d | Decoded: (%.2f, %.2f) | Actual: (%.2f, %.2f) | Predicted Angle: %.2f | Actual Angle: %.2f\n', ...
-                    t, decodedPosX, decodedPosY, actualPos(1), actualPos(2), predictedAngle, actualAngle);
+            %fprintf('Time: %d | Decoded: (%.2f, %.2f) | Actual: (%.2f, %.2f) | Predicted Angle: %.2f | Actual Angle: %.2f\n', ...
+                %t, decodedPosX(end), decodedPosY(end), actualPos(1), actualPos(2), finalPredAngle, actualAngle);
 
             meanSqError = meanSqError + norm(testData(tr,direc).handPos(1:2,t) - decodedPos)^2;
             
@@ -91,4 +100,3 @@ Weighted_rank = 0.9 * RMSE + 0.1 * totalTime
 % rmpath(genpath('Banana-Certified Interfaces'))
 
 end
-

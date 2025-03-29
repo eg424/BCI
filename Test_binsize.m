@@ -1,11 +1,12 @@
 % =================================================================================
-% NOTE: Run before test_preprocessing, otherwise error.
+% NOTE: Run before test_preprocessing, otherwise error. 
+% If graphs empty rerun, some neurons do not fire at all during trials.
 %
 % Selects a random trial and neuron, plots raw spike train, bins the spikes
-% (binSpikes) and displays the spike counts and empty bin stats
+% (binSpikes) and displays the spike counts and empty bin stats.
 %
 % Also calculates the firing rate of the selected neuron and selects the 
-% bin size based on that rate
+% bin size based on that rate.
 %
 % Outputs:
 %   - A figure with two subplots:
@@ -36,11 +37,11 @@ title(['Raw Spike Train (Neuron ' num2str(neuron_idx) ', Trial ' num2str(trial_i
 % Bin spikes
 [binnedSpikesBefore, binnedSpikes, timeBins, emptyBinsBefore, emptyBinsAfter, binSize] = binSpikes(spike_data);
 
-% Calculate the total number of bins before and after filtering
+% Calculate total number of bins before/after filtering
 totalBinsBefore = length(binnedSpikesBefore);
 totalBinsAfter = length(binnedSpikes);
 
-% Display empty bins count before and after filtering
+% Display empty bins count before/after
 disp(['Total number of bins before filtering: ' num2str(totalBinsBefore)]);
 disp(['Number of empty bins before filtering: ' num2str(emptyBinsBefore)]);
 disp(['Total number of bins after filtering: ' num2str(totalBinsAfter)]);

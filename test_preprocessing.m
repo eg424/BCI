@@ -1,6 +1,6 @@
 % ====================================================================
-% NOTE: DO NOT run before test_binsize, otherwise error. To solve,
-% clear all, load training data and run test_binsize first
+% NOTE: DO NOT run before test_binsize or test_Norm, otherwise error. To solve,
+% clear all, load training data and run test_binsize or test_Norm first.
 % ====================================================================
 
 % Mock parameters

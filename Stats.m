@@ -1,4 +1,4 @@
-%% LSTM
+%% LSTM - Need to update
 RMSE = 77.1680
 
 Total time taken: 81.9411 seconds
