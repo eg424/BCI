@@ -29,14 +29,14 @@ hold on
 axis square
 grid
 
-% modelParameters = positionEstimatorTraining2(trainingData);
+% modelParameters = positionEstimatorTraining(trainingData);
 
 % Instead of training every time, check if the trained model exists.
 % Can comment this out and uncomment above if want to test new model.
 if exist('positionEstimatorTrained.mat', 'file')
     load('positionEstimatorTrained.mat', 'modelParameters');
 else
-    modelParameters = positionEstimatorTraining2(trainingData);
+    modelParameters = positionEstimatorTraining(trainingData);
 end
 
 tic;
@@ -55,10 +55,10 @@ for tr=1:size(testData,1)
             past_current_trial.decodedHandPos = decodedHandPos;
             past_current_trial.startHandPos = testData(tr,direc).handPos(1:2,1); 
             
-            if nargout('positionEstimator2') == 3
-                [decodedPosX, decodedPosY, predictedAngle] = positionEstimator2(past_current_trial, modelParameters);
-            elseif nargout('positionEstimator2') == 2
-                [decodedPosX, decodedPosY] = positionEstimator2(past_current_trial, modelParameters);
+            if nargout('positionEstimator') == 3
+                [decodedPosX, decodedPosY, predictedAngle] = positionEstimator(past_current_trial, modelParameters);
+            elseif nargout('positionEstimator') == 2
+                [decodedPosX, decodedPosY] = positionEstimator(past_current_trial, modelParameters);
             end
 
             

@@ -30,14 +30,14 @@ function RMSE = test_Prediction(teamName)
     % Initialize RMSE storage for each trial
     trialRMSE = [];
 
-    % modelParameters = positionEstimatorTraining2(trainingData);
+    % modelParameters = positionEstimatorTraining(trainingData);
 
     % Instead of training every time, check if the trained model exists.
     % Can comment this out (Ctrl + R) and uncomment above if test new model.
     if exist('positionEstimatorTrained.mat', 'file')
         load('positionEstimatorTrained.mat', 'modelParameters');
     else
-        modelParameters = positionEstimatorTraining2(trainingData);
+        modelParameters = positionEstimatorTraining(trainingData);
     end
     
     tic;
@@ -70,10 +70,10 @@ function RMSE = test_Prediction(teamName)
             past_current_trial.startHandPos = testData(trialIdx, directionIdx).handPos(1:2, 1); 
             
             % Call the positionEstimator function
-            if nargout('positionEstimator2') == 3
-                [decodedPosX, decodedPosY, predictedAngle] = positionEstimator2(past_current_trial, modelParameters);
-            elseif nargout('positionEstimator2') == 2
-                [decodedPosX, decodedPosY] = positionEstimator2(past_current_trial, modelParameters);
+            if nargout('positionEstimator') == 3
+                [decodedPosX, decodedPosY, predictedAngle] = positionEstimator(past_current_trial, modelParameters);
+            elseif nargout('positionEstimator') == 2
+                [decodedPosX, decodedPosY] = positionEstimator(past_current_trial, modelParameters);
             end
 
             % Append decoded position and angle
