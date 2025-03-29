@@ -27,7 +27,7 @@
 
 ## Notes
 - Current code needs RMSE, might need toolbox-less implementation although only for comparison.
-- 
+- binSpikes and preprocessData may be useful for other models.
 - The trained model (`positionEstimatorTrained.mat`) is recommended for testing instead of retraining for efficiency. For further modifications, train a new model and replace `positionEstimatorTrained.mat` accordingly.
 - `test_Prediction.m` provides a quick way to evaluate model performance on a subset of trials.
 - Added currently unused figures and code for comparison in the report.
