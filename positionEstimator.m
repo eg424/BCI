@@ -1,4 +1,4 @@
-function [decodedPosX, decodedPosY, predictedAngle] = positionEstimator2(test_data, modelParameters)
+function [decodedPosX, decodedPosY, predictedAngle] = positionEstimator(test_data, modelParameters)
     %==========================================================================
     % Predicts 2D hand positions and movement angle from spikes test data.
     %
@@ -34,7 +34,7 @@ function [decodedPosX, decodedPosY, predictedAngle] = positionEstimator2(test_da
     % disp(['Final estimatedHandPos size after squeezing: ', mat2str(size(estimatedHandPos))]);
     
     %% Predictions
-    decodedPosX = estimatedHandPos(1,:);
-    decodedPosY = estimatedHandPos(2,:);
-    predictedAngle = atan2(diff(decodedPosY), diff(decodedPosX));
+    decodedPosX = estimatedHandPos(1,end);
+    decodedPosY = estimatedHandPos(2,end);
+    predictedAngle = estimatedHandPos(3,end);
 end

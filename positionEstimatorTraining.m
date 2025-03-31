@@ -1,4 +1,4 @@
-function modelParameters = positionEstimatorTraining2(training_data)
+function modelParameters = positionEstimatorTraining(training_data)
     %======================================================================
     % Trains LSTM model to predict hand positions and angles from training 
     % data (spikes and hand positions). The model is trained using Adam
