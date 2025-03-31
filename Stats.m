@@ -1,7 +1,7 @@
 %% LSTM - Need to update
-RMSE = 77.1680
+RMSE =  23.7462
 
-Total time taken: 81.9411 seconds
-Average time per prediction: 0.0122 seconds
+Total time taken: 143.1852 seconds
+Average time per prediction: 0.0214 seconds
 
-Weighted_rank = 77.6453
+Weighted_rank = 35.6901
