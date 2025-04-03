@@ -45,6 +45,8 @@ function RMSE = test_Prediction(teamName)
     % Select random trials and directions for testing
     selectedTrials = randi([1, size(testData, 1)], 1, 4);   % Random trial indices
     selectedDirections = [1, randi([1, size(testData, 2)], 1, 3)]; % One direction is always 1, other 3 are random
+    % selectedTrials = [50 15 32 39];
+    % selectedDirections = [5 1 4 2];
 
     % Shuffle to randomise order
     selectedDirections = selectedDirections(randperm(length(selectedDirections)));
