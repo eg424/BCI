@@ -9,6 +9,7 @@ numNeurons = size(TT_data(1,1).spikes, 1);
 numFeatures = 6;           % mean, var, fano, spike count, ISI mean, ISI var
 numTemporalWindows = 3;    % now includes the 301–350 ms window
 %totalFeatures = numNeurons * (numFeatures + numTemporalWindows);
+accuracies = zeros(numRounds, 1);
 
 
 
@@ -42,7 +43,7 @@ numTestTrials = size(testingData, 1);
 % Test each round separately
 for r = 1:numRounds
     T = roundWindows(r);
-    fprintf("\n=== Evaluating Round %d (time window = %d ms) ===\n", r, T);
+    %fprintf("\n=== Evaluating Round %d (time window = %d ms) ===\n", r, T);
 
     % === Determine feature length dynamically ===
     exampleSpikes = testingData(1, 1).spikes(:, 1:T);
@@ -67,10 +68,10 @@ for r = 1:numRounds
         end
     end
     
-    fprintf("Round %d\n", r);
-    fprintf("testFeatures: %d cols\n", size(testFeatures, 2));
-    fprintf("Model.featureMeans{%d}: %d cols\n", r, length(Model.featureMeans{r}));
-    fprintf("Model.featureStds{%d}: %d cols\n", r, length(Model.featureStds{r}));
+    %fprintf("Round %d\n", r);
+    %fprintf("testFeatures: %d cols\n", size(testFeatures, 2));
+    %fprintf("Model.featureMeans{%d}: %d cols\n", r, length(Model.featureMeans{r}));
+    %fprintf("Model.featureStds{%d}: %d cols\n", r, length(Model.featureStds{r}));
     % Normalize
     testFeatures = (testFeatures - Model.featureMeans{r}) ./ Model.featureStds{r};
 
@@ -80,10 +81,17 @@ for r = 1:numRounds
     % Evaluate
     correct = sum(predictedAngles == trueAngles);
     accuracy = (correct / length(trueAngles)) * 100;
-    fprintf("Accuracy at %d ms: %.2f%%\n", T, accuracy);
+    %fprintf("Accuracy at %d ms: %.2f%%\n", T, accuracy);
+    accuracies(r) = accuracy;
 
     % Optional: Confusion matrix
     figure;
-    confusionchart(confusionmat(trueAngles, predictedAngles));
-    title(sprintf("Confusion Matrix - SVM @ %d ms", T));
+    %confusionchart(confusionmat(trueAngles, predictedAngles));
+    %title(sprintf("Confusion Matrix - SVM @ %d ms", T));
 end
+
+accuracy = (sum(accuracies)/numRounds);
+errorRate = 100 - accuracy;
+
+fprintf('SVM Classifier Accuracy: %.2f%%\n', accuracy);
+fprintf('Error Rate: %.2f%%\n', errorRate);
