@@ -1,27 +1,27 @@
-function predictedAngle = classifyAngle_SVM(spikes, Model)
-    numNeurons = size(spikes, 1);
-    numFeatures = 6;
-    featureVector = zeros(1, numNeurons * numFeatures);
-    
-    ISI_mean = zeros(1, numNeurons);
-    ISI_var = zeros(1, numNeurons);
-    
-    for neuron = 1:numNeurons
-        spikeIndices = find(spikes(neuron, :) > 0);
-        if length(spikeIndices) > 1
-            ISI = diff(spikeIndices);
-            ISI_mean(neuron) = mean(ISI);
-            ISI_var(neuron) = var(ISI);
-        end
+ function predictedAngle = classifyAngle_SVM(spikes, Model)
+
+    % Determine round based on spike length
+    timeLen = size(spikes, 2);
+    timeWindows = [300, 320, 340, 360, 380];
+
+    % Find the correct round index based on current spike window
+    round = find(timeLen <= timeWindows, 1, 'first');
+    if isempty(round)
+        round = numel(timeWindows);  % use the last round if exceeds all
     end
-    
-    meanFiring = mean(spikes, 2)';
-    varFiring = var(spikes, 0, 2)';
-    fanoFactor = varFiring ./ (meanFiring + 1e-6);
-    tot_spikes = sum(spikes, 2)';
-    
-    featureVector = [meanFiring, varFiring, fanoFactor, tot_spikes, ISI_mean, ISI_var];
-    featureVector = (featureVector - mean(featureVector)) ./ (std(featureVector) + 1e-6);
-    
-    predictedAngle = predict(Model.svm, featureVector);
+
+    % Extract feature vector from spikes
+    featureVector = extractSVMFeatures(spikes, round);
+
+    % Normalize using training mean/std for that round
+    featureMean = Model.featureMeans{round};
+    featureStd = Model.featureStds{round};
+    featureVector = (featureVector - featureMean) ./ featureStd;
+
+    % Predict using corresponding SVM
+    svmModel = Model.svms{round};
+    predictedAngle = predict(svmModel, featureVector);
 end
+
+
+

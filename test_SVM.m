@@ -6,7 +6,22 @@ numAngles = size(TT_data, 2);
 
 % Set parameters for feature extraction
 numNeurons = size(TT_data(1,1).spikes, 1);
-numFeatures = 6; % Mean, Variance, Fano Factor, Total Spike Count, ISI Mean, ISI Variance
+numFeatures = 6;           % mean, var, fano, spike count, ISI mean, ISI var
+numTemporalWindows = 3;    % now includes the 301–350 ms window
+%totalFeatures = numNeurons * (numFeatures + numTemporalWindows);
+
+
+
+
+
+roundWindows = [300, 320, 340, 360, 380];
+numRounds = length(roundWindows);
+
+
+
+
+
+
 
 % Split data into 80% training and 20% testing
 trainFraction = 0.8;
@@ -23,63 +38,52 @@ Model = SVM_Classifier(trainingData);
 
 % Extract test features from testing data
 numTestTrials = size(testingData, 1);
-testFeatures = zeros(numTestTrials * numAngles, numNeurons * numFeatures);
-trueAngles = zeros(numTestTrials * numAngles, 1);
-sampleIdx = 1;
 
-for trial = 1:numTestTrials
-    for angle = 1:numAngles
-        spikes = testingData(trial, angle).spikes;
-        ISI_mean = zeros(1, numNeurons);
-        ISI_var = zeros(1, numNeurons);
-        
-        % Compute ISI for each neuron
-        for neuron = 1:numNeurons
-            spikeIndices = find(spikes(neuron, :) > 0);
-            if length(spikeIndices) > 1
-                ISI = diff(spikeIndices);
-                ISI_mean(neuron) = mean(ISI);
-                ISI_var(neuron) = var(ISI);
-            else
-                ISI_mean(neuron) = 0;
-                ISI_var(neuron) = 0;
-            end
+% Test each round separately
+for r = 1:numRounds
+    T = roundWindows(r);
+    fprintf("\n=== Evaluating Round %d (time window = %d ms) ===\n", r, T);
+
+    % === Determine feature length dynamically ===
+    exampleSpikes = testingData(1, 1).spikes(:, 1:T);
+    exampleFeature = extractSVMFeatures(exampleSpikes, r);
+    featureLength = length(exampleFeature);
+
+    % Allocate feature + labels arrays
+    numTestSamples = numel(testingData);
+    testFeatures = zeros(numTestTrials * numAngles, length(exampleFeature));
+
+    trueAngles = zeros(numTestSamples, 1);
+
+    % Fill features
+    sampleIdx = 1;
+    for trial = 1:size(testingData, 1)
+        for angle = 1:numAngles
+            spikes = testingData(trial, angle).spikes(:, 1:T);
+            feat = extractSVMFeatures(spikes, r);
+            testFeatures(sampleIdx, :) = feat;
+            trueAngles(sampleIdx) = angle;
+            sampleIdx = sampleIdx + 1;
         end
-
-        % Compute other features per neuron
-        meanFiring = mean(spikes, 2)';
-        varFiring = var(spikes, 0, 2)';
-        fanoFactor = varFiring ./ (meanFiring + 1e-6);
-        tot_spikes = sum(spikes, 2)';
-        
-        % Concatenate all features into a single row vector
-        featureVector = [meanFiring, varFiring, fanoFactor, tot_spikes, ISI_mean, ISI_var];
-
-        % Store features and corresponding angle
-        testFeatures(sampleIdx, :) = featureVector;
-        trueAngles(sampleIdx) = angle;
-        sampleIdx = sampleIdx + 1;
     end
+    
+    fprintf("Round %d\n", r);
+    fprintf("testFeatures: %d cols\n", size(testFeatures, 2));
+    fprintf("Model.featureMeans{%d}: %d cols\n", r, length(Model.featureMeans{r}));
+    fprintf("Model.featureStds{%d}: %d cols\n", r, length(Model.featureStds{r}));
+    % Normalize
+    testFeatures = (testFeatures - Model.featureMeans{r}) ./ Model.featureStds{r};
+
+    % Predict
+    predictedAngles = predict(Model.svms{r}, testFeatures);
+
+    % Evaluate
+    correct = sum(predictedAngles == trueAngles);
+    accuracy = (correct / length(trueAngles)) * 100;
+    fprintf("Accuracy at %d ms: %.2f%%\n", T, accuracy);
+
+    % Optional: Confusion matrix
+    figure;
+    confusionchart(confusionmat(trueAngles, predictedAngles));
+    title(sprintf("Confusion Matrix - SVM @ %d ms", T));
 end
-
-% Normalize Features
-testFeatures = (testFeatures - mean(testFeatures)) ./ (std(testFeatures) + 1e-6);
-
-% Predict angles using SVM classifier
-predictedAngles = predict(Model.svm, testFeatures);
-
-% Compute accuracy
-correctPredictions = sum(predictedAngles == trueAngles);
-accuracy = (correctPredictions / length(trueAngles)) * 100;
-errorRate = 100 - accuracy;
-
-fprintf('SVM Classifier Accuracy: %.2f%%\n', accuracy);
-fprintf('Error Rate: %.2f%%\n', errorRate);
-
-% Display confusion matrix
-figure;
-confusionMat = confusionmat(trueAngles, predictedAngles);
-confusionchart(confusionMat);
-title('Confusion Matrix for SVM Classification');
-xlabel('Predicted Angle');
-ylabel('True Angle');
