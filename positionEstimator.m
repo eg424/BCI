@@ -63,16 +63,4 @@ function [x, y, modelParameters] = positionEstimator(testData, modelParameters)
     x = X_est(1, end)-5;
     y = X_est(2, end);
 
-
-
-    persistent angle_hist
-    if isempty(angle_hist)
-        angle_hist = zeros(1, 8);
-    end
-    angle_hist(angle_predicted) = angle_hist(angle_predicted) + 1;
-    if mod(testData.trialId, 10) == 0
-        disp('[DEBUG] Cumulative angle predictions so far:');
-        disp(angle_hist);
-    end
-
 end
