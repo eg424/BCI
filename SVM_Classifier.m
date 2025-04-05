@@ -1,46 +1,54 @@
 function Model = SVM_Classifier(trainingData)
-    % Extract the number of trials, angles, and neurons
+
+
     numTrials = size(trainingData, 1);
     numAngles = size(trainingData, 2);
-    numNeurons = size(trainingData(1,1).spikes, 1);
-    numFeatures = 6; % Mean, Variance, Fano Factor, Total Spike Count, ISI Mean, ISI Variance
-    
-    features = zeros(numTrials * numAngles, numNeurons * numFeatures);
-    angles = zeros(numTrials * numAngles, 1);
-    
-    sampleIdx = 1;
-    
-    for trial = 1:numTrials
-        for angle = 1:numAngles
-            spikes = trainingData(trial, angle).spikes;
-            
-            ISI_mean = zeros(1, numNeurons);
-            ISI_var = zeros(1, numNeurons);
-            
-            for neuron = 1:numNeurons
-                spikeIndices = find(spikes(neuron, :) > 0);
-                if length(spikeIndices) > 1
-                    ISI = diff(spikeIndices);
-                    ISI_mean(neuron) = mean(ISI);
-                    ISI_var(neuron) = var(ISI);
-                end
+    numRounds = 5; % For 300 to 380 in 20ms steps
+
+    % Preallocate storage
+    Model.svms = cell(1, numRounds);
+    Model.featureMeans = cell(1, numRounds);
+    Model.featureStds = cell(1, numRounds);
+
+    for round = 1:numRounds
+        sampleIdx = 1;
+
+        % Extract one feature vector to get dimensionality
+        exampleSpikes = trainingData(1,1).spikes(:, 1:(300 + 20*(round - 1)));
+        exampleFeature = extractSVMFeatures(exampleSpikes, round);
+        numFeatures = length(exampleFeature);
+        rawFeatures = zeros(numTrials * numAngles, numFeatures);
+        angles = zeros(numTrials * numAngles, 1);
+
+        % Build feature matrix
+        for trial = 1:numTrials
+            for angle = 1:numAngles
+                spikes = trainingData(trial, angle).spikes(:, 1:(300 + 20*(round - 1)));
+                featureVector = extractSVMFeatures(spikes, round); % ✅ use shared extractor
+
+                rawFeatures(sampleIdx, :) = featureVector;
+                angles(sampleIdx) = angle;
+                sampleIdx = sampleIdx + 1;
+
             end
-            
-            meanFiring = mean(spikes, 2)';
-            varFiring = var(spikes, 0, 2)';
-            fanoFactor = varFiring ./ (meanFiring + 1e-6);
-            tot_spikes = sum(spikes, 2)';
-            
-            featureVector = [meanFiring, varFiring, fanoFactor, tot_spikes, ISI_mean, ISI_var];
-            features(sampleIdx, :) = featureVector;
-            angles(sampleIdx) = angle;
-            sampleIdx = sampleIdx + 1;
         end
+
+        % Normalize
+        featureMean = mean(rawFeatures, 1);
+        featureStd = std(rawFeatures, 0, 1) + 1e-6;
+        features = (rawFeatures - featureMean) ./ featureStd;
+
+        % Train SVM
+        svm = fitcecoc(features, angles, ...
+            'Coding', 'onevsall', ...
+            'Learners', 'svm', ...
+            'ClassNames', 1:8, ...
+            'Prior', 'uniform');
+
+        % Store round-specific model
+        Model.svms{round} = svm;
+        Model.featureMeans{round} = featureMean;
+        Model.featureStds{round} = featureStd;
+
     end
-    
-    % Mornalise features
-    features = (features - mean(features)) ./ (std(features) + 1e-6);
-    
-    % Train SVM model
-    Model.svm = fitcecoc(features, angles, 'Coding', 'onevsall', 'Learners', 'svm');
 end
