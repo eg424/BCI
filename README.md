@@ -1,5 +1,12 @@
 # Banana-Certified Interfaces
 
+## Contributions
+- Mohammed AbuSadeh: Initial Github repository. *Additional Models*: LDA, PCA, XGBoost, Population Vector. *Report*: Statistical Analysis of models.
+- Erik Garcia Oyono: Revised GitHub repository. *Models*: Multivariate Linear Regression, Euler, Initial SVM+Kalman, Hidden State Kalman, LSTM. *Report*: LSTM Introduction, Method, Results, and Discussion.
+- Virginia Greco: *Models*: Kalman, NB+Kalman. *Report*: Introduction, Kalman, Discussion, Results.
+- Helena Kosovac Godart: *Models*: Kalman, NB+Kalman. *Report*: Introduction, Kalman Methods, Discussion and future improvements.
+- Anna Pahl: *Models*: SVM+Kalman. *Report*: Abstract, SVM, SVM+Angle-Specific Kalman, Discussion, Conclusion.
+
 ## Overview
 This repository contains implementations of various neural decoding models for brain-computer interface (BCI) applications. The goal is to predict hand movement trajectories from neural spike recordings using different machine learning and signal processing techniques.
 
@@ -11,11 +18,11 @@ The repository follows a structured branching strategy:
 
 ### Model Categories
 
-#### Linear Regression
+#### [Linear Regression](https://github.com/eg424/BCI/tree/LinearRegression)
 Contains Euler integration model. Stats and images added for comparison of initial model performance vs Euler integration.
 - **LinRegInit**: Implements an initial linear regression model, later improved with Euler integration and comitted to LinearRegression.
 
-#### Kalman Filter
+#### [Kalman Filter](https://github.com/eg424/BCI/tree/KalmanFilter)
 Contains SVM Classifier + Kalman Filter. Stats and images added for comparison of KF vs HSKF vs SVM+KF implementation.
 - **KalmanInit**: Implements the initial Kalman filter (KF).
 - **HiddenStateKF**: Hidden State Implementation. Worse performance than initial KF.
@@ -23,7 +30,7 @@ Contains SVM Classifier + Kalman Filter. Stats and images added for comparison o
    - **NBClassifier**: Implements Naïve Bayes classification with KF. Worse performance than SVM classifier.
    - **SVMClassifier**: Implements Support Vector Machine classification with KF. Commited to `ClassifierKF` and `KalmanFilter` since best model within this family.
 
-#### Deep Learning
+#### [Deep Learning](https://github.com/eg424/BCI/tree/DeepLearning)
 - **LSTM**: Implements Long Short-Term Memory network. Commited to `DeepLearning` and `main` since best overall performance.
 
 ## Usage
@@ -46,10 +53,3 @@ Contains SVM Classifier + Kalman Filter. Stats and images added for comparison o
 
 ## Notes
 - The neural data have been generously provided by the laboratory of Prof. Krishna Shenoy at Stanford University.
-
-### Contributions
-- Mohammed AbuSadeh: Initial Github repository. *Additional Models*: LDA, PCA, XGBoost, Population Vector. *Report*: Statistical Analysis of models.
-- Erik Garcia Oyono: Revised GitHub repository. *Models*: Multivariate Linear Regression, Euler, Initial SVM+Kalman, Hidden State Kalman, LSTM. *Report*: LSTM Introduction, Method, Results, and Discussion.
-- Virginia Greco: *Models*: Kalman, NB+Kalman. *Report*: Introduction, Kalman, Discussion, Results.
-- Helena Kosovac Godart: *Models*: Kalman, NB+Kalman. *Report*: Introduction, Kalman Methods, Discussion and future improvements.
-- Anna Pahl: *Models*: SVM+Kalman. *Report*: Abstract, SVM, SVM+Angle-Specific Kalman, Discussion, Conclusion.
