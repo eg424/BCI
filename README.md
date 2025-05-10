@@ -1,4 +1,4 @@
-# BCI
+# Deep Learning
 ## Model Training and Testing
 - **positionEstimatorTraining.m**: LSTM version of the training model with high precision.
 - **positionEstimator**: Current predictor based on positionEstimatorTraing.
