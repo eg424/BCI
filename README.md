@@ -1,4 +1,7 @@
 # BCI
+The final LSTM code is in the `DeepLearning` branch. 
+However, the current branch contains the following:
+
 ## Model Training and Testing
 - **positionEstimatorTraining.m**: Previous version of sdLSTM (not currently used).
 - **positionEstimatorTraining2.m**: LSTM version of the training model with high precision.
