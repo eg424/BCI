@@ -1,1 +1,2 @@
 monkeydata_training.mat
+git rm --cached monkeydata_training.mat
