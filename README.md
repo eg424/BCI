@@ -13,6 +13,7 @@ This branch implements Kalman filter-based neural decoders, including classifica
 ## Results and Visualisations
 - **KalmanSVM**: Prediction results for final version.
 - **KalmanInit**: Prediction results for initial KF predictions.
+- **HSKF**: Prediction results for Hidden State implementation.
 
 ## Notes
 - Classifier-based decoding helped reduce angle-specific errors.
