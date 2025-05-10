@@ -12,19 +12,19 @@ The repository follows a structured branching strategy:
 ### Model Categories
 
 #### Linear Regression
-Contains Euler integration model. Stats and images added for comparison of initial model performance vs Euler integration.
+Contains multivariate linear regression model with Euler integration for improved accuracy. Stats and images added for comparison of initial model performance vs Euler integration.
 - **LinRegInit**: Implements an initial linear regression model, later improved with Euler integration and comitted to LinearRegression.
 
 #### Kalman Filter
-Contains SVM Classifier + Kalman Filter. Stats and images added for comparison of KF vs HSKF vs SVM+KF implementation.
-- **KalmanInit**: Implements the initial Kalman filter (KF).
+Contains initial Kalman Filter for now. Stats and images added for comparison of KF vs HSKF implementation.
+- **KalmanInit**: Implements the initial Kalman filter (KF).  The current best version is committed to `KalmanFilter` as better than HSKF.
 - **HiddenStateKF**: Hidden State Implementation. Worse performance than initial KF.
-- **ClassifierKF**: Contains SVM classifier with KF for improved accuracy vs initial KF.
-   - **NBClassifier**: Implements Naïve Bayes classification with KF. Worse performance than SVM classifier.
+- **ClassifierKF**: Contains the best classifier (SVM) with KF for improved accuracy vs initial KF.
+   - **NBClassifier**: Implements Naïve Bayes classification with KF.
    - **SVMClassifier**: Implements Support Vector Machine classification with KF. Commited to `ClassifierKF` and `KalmanFilter` since best model within this family.
 
 #### Deep Learning
-- **LSTM**: Implements Long Short-Term Memory network. Commited to `DeepLearning` and `main` since best overall performance.
+- **LSTM**: Implements Long Short-Term Memory network. Commited to `DeepLearning` and `main` since best performance overall.
 
 ## Usage
 1. Clone the repository:
@@ -39,10 +39,9 @@ Contains SVM Classifier + Kalman Filter. Stats and images added for comparison o
 3. To contribute, create a new branch from `dev`, implement changes, and merge only the best-performing models into `main`.
 
 ## Roadmap
-- Developed an initial Linear Regression Model, later replaced with Euler's integration.
-- Implemented a Kalman Filter. Tested and compared various methods for improved performance.
-- Iteratively tested several Deep Learning approaches.
-- Optimised and compared the top-three performing neural decoders.
+- Developed an initial linear regression model, later replaced with Euler's integration.
+- Implemented a Kalman Filter. Tested and compared Hidden State implementation, and determined the best classifier-based KF model.
+- Optimised LSTM approach and finalised the best performing NN-based decoder.
 
 ## Notes
 - The neural data have been generously provided by the laboratory of Prof. Krishna Shenoy at Stanford University.
