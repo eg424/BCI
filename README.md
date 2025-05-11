@@ -1,11 +1,22 @@
 # Banana-Certified Interfaces
 
 ## Contributions
-- Mohammed AbuSadeh: Initial Github repository. *Additional Models*: LDA, PCA, XGBoost, Population Vector. *Report*: Statistical Analysis of models.
-- Erik Garcia Oyono: Revised GitHub repository. *Models*: Multivariate Linear Regression, Euler, Initial SVM+Kalman, Hidden State Kalman, LSTM. *Report*: LSTM Introduction, Method, Results, and Discussion.
-- Virginia Greco: *Models*: Kalman, NB+Kalman. *Report*: Introduction, Kalman, Discussion, Results.
-- Helena Kosovac Godart: *Models*: Kalman, NB+Kalman. *Report*: Introduction, Kalman Methods, Discussion and future improvements.
-- Anna Pahl: *Models*: SVM+Kalman. *Report*: Abstract, SVM, SVM+Angle-Specific Kalman, Discussion, Conclusion.
+- Mohammed AbuSadeh: Initial Github repository.
+   - *Additional Models*: LDA, PCA, XGBoost, Population Vector.
+   - **Report**: Statistical Analysis of models.
+- Erik Garcia Oyono: Revised GitHub repository.
+   - **Models**: Multivariate Linear Regression, Euler, Initial SVM+Kalman, Hidden State Kalman, LSTM.
+   - **Report**: LSTM Introduction, Method, Results, and Discussion.
+- Virginia Greco:
+   - **Models**: Kalman, NB+Kalman.
+   - **Report**: Introduction, Kalman, Discussion, Results.
+- Helena Kosovac Godart:
+   - **Models**: Kalman, NB+Kalman.
+   - **Report**: Introduction, Kalman Methods, Discussion and future improvements.
+- Anna Pahl:
+   - **Models**: SVM+Kalman.
+   - *Additional Models*: Recurrent Neural Network (RNN).
+   - **Report**: Abstract, SVM, SVM+Angle-Specific Kalman, Discussion, Conclusion.
 
 ## Overview
 This repository contains implementations of various neural decoding models for brain-computer interface (BCI) applications. The goal is to predict hand movement trajectories from neural spike recordings using different machine learning and signal processing techniques.
