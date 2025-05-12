@@ -50,7 +50,7 @@ Contains SVM Classifier + Kalman Filter. Stats and images added for comparison o
    - **SVMClassifier**: Implements Support Vector Machine classification with KF. Commited to `ClassifierKF` and `KalmanFilter` since best model within this family.
 
 #### [Deep Learning](https://github.com/eg424/BCI/tree/DeepLearning)
-Contains final LSTM model. Stats and images added for comparison of KF vs HSKF vs SVM+KF implementation.
+Contains final LSTM model. Stats and images added for comparison of different hyperparameters.
 - **LSTM**: Implements Long Short-Term Memory network. Commited to `DeepLearning`, where it was improved, and `main` since best overall performance.
 
 ## Usage
