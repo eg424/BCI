@@ -1,4 +1,12 @@
-# Banana-Certified Interfaces
+# Neural Decoders for Hand Trajectory Estimation from M1 Activity
+
+<div align="center">
+
+| LSTM Model's Performance | Comparison of Models |
+|------|-------------------------------------------|
+| <img src="https://github.com/user-attachments/assets/38158b80-3f47-4297-a1a1-78b7e07291c0" alt="LSTM" width="300"/> | <img src="https://github.com/user-attachments/assets/df315e6c-bab9-4306-bed5-7b887ca4e71c" alt="RosePlots" width="300"/><br><img src="https://github.com/user-attachments/assets/8a555e34-4cb0-413e-9b0c-7fd96b362ca4" alt="ViolinPlots" width="300"/> |
+
+</div>
 
 ## Contributions
 - Mohammed AbuSadeh: Initial Github repository.
@@ -42,7 +50,8 @@ Contains SVM Classifier + Kalman Filter. Stats and images added for comparison o
    - **SVMClassifier**: Implements Support Vector Machine classification with KF. Commited to `ClassifierKF` and `KalmanFilter` since best model within this family.
 
 #### [Deep Learning](https://github.com/eg424/BCI/tree/DeepLearning)
-- **LSTM**: Implements Long Short-Term Memory network. Commited to `DeepLearning` and `main` since best overall performance.
+Contains final LSTM model. Stats and images added for comparison of KF vs HSKF vs SVM+KF implementation.
+- **LSTM**: Implements Long Short-Term Memory network. Commited to `DeepLearning`, where it was improved, and `main` since best overall performance.
 
 ## Usage
 1. Clone the repository:
@@ -50,11 +59,26 @@ Contains SVM Classifier + Kalman Filter. Stats and images added for comparison o
    git clone https://github.com/eg424/BCI.git
    cd BCI
    ```
-2. Switch to the development branch for testing new features:
+2. Add the repository to your MATLAB path. You can do this within MATLAB:
    ```sh
-   git checkout dev
+   addpath(genpath('path_to_cloned_repo'));
    ```
-3. To contribute, create a new branch from `dev`, implement changes, and merge only the best-performing models into `main`.
+3. Run the test script in MATLAB. Make sure you have the following files in your working directory:
+- monkeydata_training.mat
+- positionEstimatorTrained.mat
+- testFunction_for_students_MTb.m
+4. Run the test script.
+  In MATLAB, execute:
+  ```sh
+  RMSE = testFunction_for_students_MTb('YourTeamName');
+  ```
+  This script will:
+  - Load the trained model parameters from positionEstimatorTrained.mat.
+  - Test the decoder using a held-out portion of the monkeydata_training.mat dataset.
+  - Plot predicted vs actual hand positions.
+  - Output the Root Mean Squared Error (RMSE), total runtime, average time per prediction, and a weighted performance rank.
+
+Note: If positionEstimatorTrained.mat does not exist, the script will train a new model from scratch using positionEstimatorTraining.m.
 
 ## Roadmap
 - Developed an initial Linear Regression Model, later replaced with Euler's integration.
