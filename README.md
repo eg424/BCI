@@ -12,9 +12,9 @@
 - Mohammed AbuSadeh: Initial Github repository.
    - *Additional Models*: LDA, PCA, XGBoost, Population Vector.
    - **Report**: Statistical Analysis of models.
-- Erik Garcia Oyono: Revised GitHub repository.
+- Erik Garcia Oyono: Revised GitHub repository and statistical analyses.
    - **Models**: Multivariate Linear Regression, Euler, Initial SVM+Kalman, Hidden State Kalman, LSTM.
-   - **Report**: LSTM Introduction, Method, Results, and Discussion.
+   - **Report**: Overall structure. LSTM Introduction, Method, Results, and Discussion. Normality, Friedman, Bonferroni-Holm Methods, Results, and Discussion.
 - Virginia Greco:
    - **Models**: Kalman, NB+Kalman.
    - **Report**: Introduction, Kalman, Discussion, Results.

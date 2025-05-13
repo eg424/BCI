@@ -1,0 +1,38 @@
+### 1. Kolmogorov-Smirnov Test for Normality
+**Results**:
+- KF Normality *p*-value: 0.7045
+- SVM+KF Normality *p*-value: 0.0352
+- LSTM Normality *p*-value: 0.0021
+
+**Interpretation**:
+- KF: *p* = 0.7045 > 0.05. This indicates that the Kalman Filter RMSE values **are normally distributed**.
+- SVM+KF: *p* = 0.0352 < 0.05. This suggests that the SVM+KF RMSE values **are not normally distributed**.
+- LSTM: *p* = 0.0021 < 0.05. This indicates that the LSTM RMSE values **are not normally distributed**.
+
+---
+
+### 2. Friedman Test (Non-parametric Repeated Measures ANOVA)
+**Results**:
+- *p* = 4.49e-09 < 0.05. This shows that there is a **statistical difference** in the RMSE values across the three models (KF, SVM+KF, and LSTM).
+
+---
+
+### 3. Post-hoc Pairwise Comparisons (Bonferroni-Holm)
+**Pairwise Wilcoxon Signed-Rank Tests**:
+- KF vs SVM+KF: *p* = 0.0000, adjusted alpha = 0.0500 | **Significant**
+- KF vs LSTM: *p* = 0.0000, adjusted alpha = 0.0167 | **Significant**
+- SVM+KF vs LSTM: *p* = 0.0000, adjusted alpha = 0.0250 | **Significant**
+
+**Interpretation**:
+All pairwise comparisons between the models (KF vs SVM+KF, KF vs LSTM, and SVM+KF vs LSTM) are **statistically different**. This suggests that there are statistical differences in the RMSE values across the models, with all comparisons showing that the models differ in performance.
+
+---
+
+### Conclusion:
+The **Kalman Filter** (KF) performs most consistently with a normal distribution in the RMSE values. The **SVM+KF** and **LSTM** models show statistical differences from KF and each other in terms of RMSE. All pairwise comparisons suggest meaningful differences in performance between the models.
+
+---
+
+**Notes**:
+- These results were analysed using the Kolmogorov-Smirnov normality test, Friedman test, and post-hoc Wilcoxon signed-rank tests with Bonferroni-Holm correction.
+- Data were collected from RMSE values per trial for each model: KF, SVM+KF, and LSTM.
