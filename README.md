@@ -4,7 +4,7 @@
 
 | LSTM Model's Performance | Comparison of Models |
 |------|-------------------------------------------|
-| <img src="https://github.com/user-attachments/assets/38158b80-3f47-4297-a1a1-78b7e07291c0" alt="LSTM" width="300"/> | <img src="https://github.com/user-attachments/assets/df315e6c-bab9-4306-bed5-7b887ca4e71c" alt="RosePlots" width="300"/><br><img src="https://github.com/user-attachments/assets/8a555e34-4cb0-413e-9b0c-7fd96b362ca4" alt="ViolinPlots" width="300"/> |
+| <img src="https://github.com/user-attachments/assets/38158b80-3f47-4297-a1a1-78b7e07291c0" alt="LSTM" width="300"/> | <img src="https://github.com/user-attachments/assets/df315e6c-bab9-4306-bed5-7b887ca4e71c" alt="RosePlots" width="300"/><br><img src="https://github.com/user-attachments/assets/1e058bba-a825-41ea-a133-332e8afd979d" alt="Boxplot" width="270"/> |
 
 </div>
 
